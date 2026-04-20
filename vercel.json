@@ -20,11 +20,11 @@
     },
     {
       "source": "/assets/(.*)",
-      "destination": "/Frontend/rms-front/dist/assets/$1"
+      "destination": "/Frontend/rms_front/dist/assets/$1"
     },
     {
       "source": "/(.*)",
-      "destination": "/Frontend/rms-front/dist/index.html"
+      "destination": "/Frontend/rms_front/dist/index.html"
     }
   ]
 }
