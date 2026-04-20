@@ -15,10 +15,11 @@
     "dialect": "mysql"
   },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "rmsdb",
-    "host": "db",
-    "dialect": "mysql"
+    "username": "postgres.hrnyppxsimwkatlaxpvs",
+    "password": "pBNJceerr9venwYn",
+    "database": "postgres",
+    "host": "aws-1-ap-northeast-1.pooler.supabase.com",
+    "dialect": "postgres",
+    "port": 5432
   }
 }
