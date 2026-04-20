@@ -6,7 +6,9 @@ export function usePackage() {
   const [archivedPackages, setArchivedPackages] = useState([]);
   const [sellers, setSellers] = useState([]);
   const [balance, setBalance] = useState(0);
-  const BASE_URL = "http://localhost:3000";
+  // const BASE_URL = "http://localhost:3000";
+  const API_URL = import.meta.env.VITE_API_URL;
+  
 
   function computeBalance(packagesList) {
     return packagesList
@@ -16,7 +18,7 @@ export function usePackage() {
 
 const getAllPackage = async () => {
   try {
-    const response = await fetch('http://localhost:3000/packages');
+    const response = await fetch(`${API_URL}/packages`);
     if (!response.ok) {
       throw new Error('Failed to fetch packages');
     }
@@ -30,7 +32,7 @@ const getAllPackage = async () => {
 
   async function createPackage(packg) {
     try {
-      const res = await axios.post(`${BASE_URL}/packages/create`, {
+      const res = await axios.post(`${API_URL}/packages/create`, {
         ...packg,
         payment_Status: "unpaid"
       });
@@ -44,7 +46,7 @@ const getAllPackage = async () => {
 
   const deletePackage = async (packageData) => {
     try {
-      const response = await fetch(`http://localhost:3000/packages/delete`, {
+      const response = await fetch(`${API_URL}/packages/delete`, {
         method: 'POST',  // Change from DELETE to POST
         headers: {
           'Content-Type': 'application/json',
@@ -66,7 +68,7 @@ const getAllPackage = async () => {
     try {
       const original = packages.find(p => p.id === packg.id);
 
-      const res = await axios.post(`${BASE_URL}/packages/update`, {
+      const res = await axios.post(`${API_URL}/packages/update`, {
         ...packg,
         payment_Status: packg.payment_Status.toLowerCase()
       });
@@ -96,7 +98,7 @@ const getAllPackage = async () => {
 
   async function getAllSellers() {
     try {
-      const res = await axios.get(`${BASE_URL}/packages/sellers/list`);
+      const res = await axios.get(`${API_URL}/packages/sellers/list`);
       setSellers(res.data);
     } catch (err) {
       console.error("Error fetching sellers:", err);
@@ -106,7 +108,7 @@ const getAllPackage = async () => {
 
   async function getArchivedPackages() {
     try {
-      const res = await axios.get(`${BASE_URL}/packages/archived/all`);
+      const res = await axios.get(`${API_URL}/packages/archived/all`);
       setArchivedPackages(res.data);
       return res.data;
     } catch (err) {
@@ -117,7 +119,7 @@ const getAllPackage = async () => {
 
   async function restorePackage(packageId) {
     try {
-      const res = await axios.post(`${BASE_URL}/packages/restore`, { id: packageId });
+      const res = await axios.post(`${API_URL}/packages/restore`, { id: packageId });
       return res.data;
     } catch (err) {
       console.error("Error restoring package:", err);

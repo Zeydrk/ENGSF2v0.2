@@ -11,13 +11,16 @@ function debounce(cb, delay = 300) {
 }
 
 export function useProduct() {
-  const BASE_URL = "http://localhost:3000";
+  // const BASE_URL = "http://localhost:3000";
+  const API_URL = import.meta.env.VITE_API_URL;
+
 
   // --- State ---
   const [products, setProducts] = useState([]);
   const [archived, setArchived] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  
 
   // --- Error handler ---
   const handleError = (err) => {
@@ -29,7 +32,7 @@ export function useProduct() {
   const getAllProducts = useCallback(async (page = 1, limit = 7) => {
     setLoading(true);
     try {
-      const res = await fetch(`${BASE_URL}/products?page=${page}&limit=${limit}`);
+      const res = await fetch(`${API_URL}/products?page=${page}&limit=${limit}`);
       if (!res.ok) throw new Error("Failed to load products");
       const data = await res.json();
       setProducts(data.products || []);
@@ -46,7 +49,7 @@ export function useProduct() {
   const archivedProducts = useCallback(async (page = 1, limit = 7) => {
     setLoading(true);
     try {
-      const res = await fetch(`${BASE_URL}/products/archived?page=${page}&limit=${limit}`);
+      const res = await fetch(`${API_URL}/products/archived?page=${page}&limit=${limit}`);
       if (!res.ok) throw new Error("Failed to load archived products");
       const data = await res.json();
       setArchived(data.products || []);
@@ -61,7 +64,7 @@ export function useProduct() {
 
   const createProduct = async (product) => {
     try {
-      const response = await axios.post(`${BASE_URL}/products/create`, product);
+      const response = await axios.post(`${API_URL}/products/create`, product);
       await getAllProducts();
     } catch (err) {
       handleError(err);
@@ -70,7 +73,7 @@ export function useProduct() {
 
   const updateProduct = async (product) => {
     try {
-    await axios.post(`${BASE_URL}/products/update`, product);
+    await axios.post(`${API_URL}/products/update`, product);
   
       await getAllProducts();
     } catch (err) {
@@ -80,7 +83,7 @@ export function useProduct() {
 
   const deleteProduct = async (product) => {
     try {
-      await axios.post(`${BASE_URL}/products/delete`, { id: product.id });
+      await axios.post(`${API_URL}/products/delete`, { id: product.id });
       await getAllProducts();
     } catch (err) {
       handleError(err);
@@ -89,7 +92,7 @@ export function useProduct() {
 
   const archiveProduct = async (product) => {
     try {
-      await axios.post(`${BASE_URL}/products/archive`, { id: product.id });
+      await axios.post(`${API_URL}/products/archive`, { id: product.id });
       await getAllProducts();
       await archivedProducts();
     } catch (err) {
@@ -99,7 +102,7 @@ export function useProduct() {
 
   const archiveAddBack = async (product) => {
     try {
-      await axios.post(`${BASE_URL}/products/addBack`, { id: product.id });
+      await axios.post(`${API_URL}/products/addBack`, { id: product.id });
       await getAllProducts();
       await archivedProducts();
     } catch (err) {
@@ -111,7 +114,7 @@ export function useProduct() {
 const searchProduct = useCallback(
   debounce(async (search, category) => {
 
-    const res = await axios.get(`${BASE_URL}/products/search`, {
+    const res = await axios.get(`${API_URL}/products/search`, {
       params: {
         search: search || "",
         category: category || "",
@@ -126,7 +129,7 @@ const searchProduct = useCallback(
 
   const searchArchivedProduct = useCallback(
     debounce(async (search, category) => {
-    const res = await axios.get(`${BASE_URL}/products/searchArchive`, {
+    const res = await axios.get(`${API_URL}/products/searchArchive`, {
       params: {
         search: search || "",
         category: category || "",
