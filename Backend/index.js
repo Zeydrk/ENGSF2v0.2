@@ -9,8 +9,8 @@ const session = require('express-session');
 require('dotenv').config();
 require('./src/accounts/middleware/accounts-middleware')
 
-// Import cron jobs
-const { setupArchiveCleanup } = require('./src/cronJobs'); // Add this line
+// [NOT NEEDED ON VERCEL] Background tasks do not run in serverless environments
+// const { setupArchiveCleanup } = require('./src/cronJobs'); 
 
 // importing routes here
 const adminsRoutes = require('./src/admin/admins-routes')
@@ -19,7 +19,10 @@ const packageRoutes = require('./src/packages/package-route')
 const sellerRoutes = require('./src/sellers/seller-route')
 const logRoutes = require('./src/logreports/adminlog-routes')
 const notificationRoutes = require('./src/services/emailNotif-routes')
+
+// [NOT NEEDED ON VERCEL] 
 const { startAutoNotifications } = require('./src/services/autoNotifSched')
+
 // for testing
 const accountsRoutes = require('./src/accounts/accounts-routes')
 
@@ -33,7 +36,6 @@ app.use((req, res, next) => {
     next();
 });
 app.use(cors({
-    origin: 'http://localhost:5173', // Your exact frontend URL
     credentials: true, // ← This allows cookies
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization']
@@ -46,7 +48,7 @@ app.use(session({
     saveUninitialized: false,
     cookie:{
         maxAge: 24 * 60 * 60 * 1000, //supposed to be a day
-        secure: false, // ← Set to false for localhost
+        secure: true, // ← [CHANGED FOR VERCEL] Must be true because Vercel uses HTTPS
         sameSite: 'lax' // ← Important for credentials
     },
 
@@ -72,12 +74,15 @@ app.use('/sellers', sellerRoutes);
 app.use('/logs', logRoutes);
 app.use('/email/notifications', notificationRoutes);
 
-// Start cron jobs and notification scheduler
-setupArchiveCleanup(); // Add this line
+// [NOT NEEDED ON VERCEL]
+setupArchiveCleanup(); 
 startAutoNotifications();
 
-// Server feedback
-app.listen(3000, () => {
-    console.log(`Server has started at http://localhost:3000`)
-    console.log('Cron jobs initialized');
-})
+// [NOT NEEDED ON VERCEL] Serverless functions don't listen on ports
+// app.listen(3000, () => {
+//     console.log(`Server has started at http://localhost:3000`)
+//     console.log('Cron jobs initialized');
+// })
+
+// [ADDED FOR VERCEL] You must export the app so Vercel can run it
+module.exports = app;
