@@ -19,8 +19,12 @@
       "destination": "/Backend/index.js"
     },
     {
+      "source": "/assets/(.*)",
+      "destination": "/Frontend/rms-front/dist/assets/$1"
+    },
+    {
       "source": "/(.*)",
-      "destination": "/Frontend/rms_front/dist/$1"
+      "destination": "/Frontend/rms-front/dist/index.html"
     }
   ]
 }
