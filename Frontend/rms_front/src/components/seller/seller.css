@@ -1,0 +1,311 @@
+/* sellers.css - Mobile-Optimized Seller Management Styles */
+
+.sellers-container {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+/* Custom scrollbar for table */
+.sellers-container table {
+  border-spacing: 0;
+  min-width: 600px; /* Ensure table doesn't get too narrow */
+}
+
+.sellers-container tbody {
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.sellers-container tbody::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sellers-container tbody::-webkit-scrollbar-track {
+  background: #fed7aa;
+  border-radius: 2px;
+}
+
+.sellers-container tbody::-webkit-scrollbar-thumb {
+  background: #f59e0b;
+  border-radius: 2px;
+}
+
+.sellers-container tbody::-webkit-scrollbar-thumb:hover {
+  background: #ea580c;
+}
+
+/* Table row animations */
+.sellers-container tbody tr {
+  transition: all 0.2s ease;
+}
+
+.sellers-container tbody tr:hover {
+  transform: translateX(2px);
+}
+
+/* Modal animations */
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.sellers-container .fixed.inset-0 > div {
+  animation: modalSlideIn 0.2s ease-out;
+}
+
+/* Enhanced mobile responsive table */
+@media (max-width: 768px) {
+  .sellers-container {
+    padding: 0.5rem;
+  }
+  
+  .sellers-container table {
+    min-width: 100%;
+    display: block;
+    font-size: 0.875rem;
+  }
+  
+  .sellers-container thead {
+    display: none;
+  }
+  
+  .sellers-container tbody,
+  .sellers-container tr {
+    display: block;
+    width: 100%;
+  }
+  
+  .sellers-container tr {
+    margin-bottom: 0.75rem;
+    border: 1px solid #fdba74;
+    border-radius: 0.75rem;
+    padding: 0.75rem;
+    background: white;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .sellers-container td {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: right;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid #fed7aa;
+    width: 100%;
+  }
+  
+  .sellers-container td:last-child {
+    border-bottom: none;
+    justify-content: flex-end;
+    gap: 0.5rem;
+  }
+  
+  .sellers-container td::before {
+    content: attr(data-label);
+    float: left;
+    font-weight: 600;
+    color: #ea580c;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+  }
+  
+  /* Add data labels for mobile table */
+  .sellers-container td:nth-child(1)::before { content: "Seller Code"; }
+  .sellers-container td:nth-child(2)::before { content: "Seller Name"; }
+  .sellers-container td:nth-child(3)::before { content: "Email"; }
+  .sellers-container td:nth-child(4)::before { content: "Contact"; }
+  .sellers-container td:nth-child(5)::before { content: "Actions"; }
+  
+  /* Ensure buttons are touch-friendly */
+  .sellers-container button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Modal improvements for mobile */
+  .sellers-container .fixed.inset-0 {
+    padding: 0.5rem;
+    align-items: flex-start;
+    padding-top: 2rem;
+  }
+  
+  .sellers-container .fixed.inset-0 > div {
+    max-height: calc(100vh - 4rem);
+    overflow-y: auto;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 480px) {
+  .sellers-container {
+    padding: 0.25rem;
+  }
+  
+  .sellers-container h1 {
+    font-size: 1.5rem;
+  }
+  
+  .sellers-container p {
+    font-size: 0.875rem;
+  }
+  
+  .sellers-container tr {
+    padding: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .sellers-container td {
+    padding: 0.375rem 0;
+    font-size: 0.8125rem;
+  }
+}
+
+/* Loading skeleton */
+.skeleton-row {
+  animation: skeleton-loading 1.5s ease-in-out infinite;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-color: #f3f4f6;
+  }
+  50% {
+    background-color: #e5e7eb;
+  }
+  100% {
+    background-color: #f3f4f6;
+  }
+}
+
+/* Print styles */
+@media print {
+  .sellers-container {
+    background: white !important;
+  }
+  
+  .sellers-container button {
+    display: none !important;
+  }
+  
+  .sellers-container .bg-linear-to-br {
+    background: white !important;
+  }
+}
+
+/* Ensure text doesn't overflow on mobile */
+.text-truncate-mobile {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Touch-friendly button enhancements */
+.touch-button {
+  min-height: 44px;
+  min-width: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Avatar styles for seller initials */
+.seller-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: white;
+  font-size: 0.875rem;
+  background: linear-gradient(135deg, #f59e0b, #ea580c);
+}
+
+@media (max-width: 768px) {
+  .seller-avatar {
+    width: 24px;
+    height: 24px;
+    font-size: 0.75rem;
+  }
+}
+
+/* Badge styles for seller code */
+.seller-code-badge {
+  background: linear-gradient(135deg, #fef3c7, #fed7aa);
+  color: #92400e;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border: 1px solid #fdba74;
+}
+
+/* Hover effects for interactive elements */
+.interactive-card {
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.interactive-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(245, 158, 11, 0.15);
+}
+
+/* Form validation styles */
+.form-error {
+  color: #dc2626;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.form-success {
+  color: #16a34a;
+  font-size: 0.75rem;
+  margin-top: 0.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* Loading states */
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: inherit;
+  z-index: 10;
+}
+
+/* Empty state styles */
+.empty-state {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: #d97706;
+}
+
+.empty-state-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  opacity: 0.5;
+}
+
+/* Search input focus styles */
+.search-input:focus {
+  border-color: #f59e0b;
+  box-shadow: 0 0 0 3px rgba(245, 158, 11, 0.1);
+}

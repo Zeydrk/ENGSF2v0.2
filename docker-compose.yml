@@ -1,0 +1,41 @@
+services:
+  db:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: rmsdb
+      MYSQL_ALLOW_EMPTY_PASSWORD: "yes"
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: ./backend
+    environment:
+      - NODE_ENV=production
+    env_file:
+      - ./backend/.env
+    ports:
+      - "3000:3000"
+    command: sh -c "npx sequelize-cli db:migrate && npm start"
+    depends_on:
+      db:
+        condition: service_healthy
+
+  frontend:
+    build: ./frontend/rms_front
+    ports:
+      - "5173:5173"
+    stdin_open: true
+    tty: true
+    depends_on:
+      - backend
+
+volumes:
+  db_data:
